@@ -25,7 +25,8 @@ namespace UsersAPI.Services
             var resultado = await _userManager.CreateAsync(usuario, dto.Password);
             if (!resultado.Succeeded)
             {
-                throw new ApplicationException("Falha ao cadastrar usuário");
+                var erros = string.Join(", ", resultado.Errors.Select(e => e.Description));
+                throw new ApplicationException($"Falha ao cadastrar usuário: {erros}");
             }
             
         }
